@@ -90,19 +90,23 @@ function vowelCount(str) {
   const vowel = { a: 0, e: 0, i: 0, o: 0, u: 0 };
   str.split("").forEach((char) => {
     switch (char) {
+      case "A":
       case "a":
         vowel.a++;
         break;
-      case "e":
       case "E":
+      case "e":
         vowel.e++;
         break;
+      case "I":
       case "i":
         vowel.i++;
         break;
+      case "O":
       case "o":
         vowel.o++;
         break;
+      case "U":
       case "u":
         vowel.u++;
         break;
@@ -110,10 +114,20 @@ function vowelCount(str) {
         break;
     }
   });
-
-  // remove vowes that have 0
-  return vowel;
+  // filter obj
+  const filterOBJ = {};
+  // iterate thru obj
+  for (const key in vowel) {
+    // check if value of key !== 0
+    if (vowel[key] !== 0) {
+      // add it to the filter OBJ
+      filterOBJ[key] = vowel[key];
+    }
+  }
+  // retunr OBJ
+  return filterOBJ;
 }
+console.log(vowelCount("Elie"));
 // filter to remove value that have 0
 
 /*
@@ -212,23 +226,30 @@ Examples:
 
 function find(arr, searchValue) {
   return arr.filter((num) => {
-     return num === searchValue
-    
-    //  what is this 
+    return num === searchValue;
+
+    //  what is this
   })[0];
 }
-console.log(  find([1,2,3,4,5], 7))
 /*
 Write a function called findInObj which accepts an array of objects, a key, and some value to search for and returns the first found value in the array.
 
 Examples:
-    findInObj([{first: 'Elie', last:"Schoppik"}, {first: 'Tim', last:"Garcia", isCatOwner: true}, {first: 'Matt', last:"Lane"}, {first: 'Colt', last:"Steele", isCatOwner: true}], 'isCatOwner',true) // {first: 'Tim', last:"Garcia", isCatOwner: true}
+    findInObj([{first: 'Elie', last:"Schoppik"}, 
+    {first: 'Tim', last:"Garcia", isCatOwner: true}, 
+    {first: 'Matt', last:"Lane"}, {first: 'Colt',
+     last:"Steele", isCatOwner: true}], 'isCatOwner',true) 
+     // {first: 'Tim', last:"Garcia", isCatOwner: true}
 */
 
 function findInObj(arr, key, searchValue) {
-  arr.filter((el)=>{
-    return el[key] === searchValue;
-  })[0]
+  const filterd = arr.filter((el) => {
+    // check if obj has key and obj has the value search
+    return el.hasOwnProperty(key) && Object.values(el).includes(searchValue)
+      ? el
+      : null;
+  });
+  return filterd[0];
 }
 
 /*
@@ -240,14 +261,16 @@ Examples:
     removeVowels('ZZZZZZ') // ('zzzzzz')
 */
 
-function removeVowels(str) {  const vowels = "aeiou";
-return str
-  .toLowerCase()
-  .split("")
-  .filter(function(val) {
-    return vowels.indexOf(val) === -1;
-  })
-  .join("");}
+function removeVowels(str) {
+  const vowels = "aeiou";
+  return str
+    .toLowerCase()
+    .split("")
+    .filter(function (val) {
+      return vowels.indexOf(val) === -1;
+    })
+    .join("");
+}
 
 /*
 Write a function called doubleOddNumbers which accepts an array and returns a new array with all of the odd numbers doubled (HINT - you can use map and filter to double and then filter the odd numbers).
@@ -258,6 +281,13 @@ Examples:
 */
 
 function doubleOddNumbers(arr) {
-  
-
+  return arr
+    .filter((num) => {
+      // filter all odds
+      return num % 2 !== 0 ? num : null;
+    })
+    .map((odd) => {
+      // double odds and return new array
+      return odd * 2;
+    });
 }
